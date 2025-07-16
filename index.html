@@ -3,594 +3,912 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ตารางเตรียมสอบครูผู้ช่วย 2568</title>
+    <title>BanjuInsyaAllah</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        
         body {
             font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2306b6d4' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
-        .table-shadow {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+        .prayer-time {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
-        .highlight-row {
-            background: linear-gradient(90deg, #fef3c7, #fde68a);
+        
+        .study-time {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
-        .live-session {
-            background: linear-gradient(90deg, #dbeafe, #bfdbfe);
+        
+        .break-time {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
-        .exam-practice {
-            background: linear-gradient(90deg, #fce7f3, #fbcfe8);
+        
+        .sleep-time {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
         }
-        .special-activity {
-            background: linear-gradient(90deg, #d1fae5, #a7f3d0);
-        }
-        .card-view {
-            display: none;
-        }
-        .table-view {
-            display: block;
-        }
-        .filter-btn {
-            transition: all 0.3s ease;
-        }
-        .filter-btn.active {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .task-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .task-card:hover {
-            transform: translateY(-2px);
-        }
-        .task-card.completed {
+        
+        .completed {
             opacity: 0.6;
             transform: scale(0.98);
         }
-        .progress-bar {
-            transition: width 0.5s ease;
+        
+        .tab-active {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
         }
-        .floating-progress {
+        
+        .floating-prayer {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
             z-index: 1000;
+            animation: pulse 2s infinite;
         }
-        @media (max-width: 768px) {
-            .table-view {
-                display: none;
-            }
-            .card-view {
-                display: block;
-            }
-            .mobile-text {
-                font-size: 0.75rem;
-            }
-            .floating-progress {
-                bottom: 10px;
-                right: 10px;
-            }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
-        .bounce {
-            animation: bounce 0.5s ease;
+        
+        .schedule-card {
+            transition: all 0.3s ease;
         }
-        @keyframes bounce {
-            0%, 20%, 60%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            80% { transform: translateY(-5px); }
+        
+        .schedule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .current-activity {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border: 2px solid #d97706;
+            animation: currentPulse 2s infinite;
+            transform: scale(1.02);
+        }
+        
+        .upcoming-activity {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 1px solid #3b82f6;
+        }
+        
+        .current-exam-day {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 6px solid #f59e0b !important;
+            animation: examDayPulse 3s infinite;
+        }
+        
+        @keyframes currentPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+        }
+        
+        @keyframes examDayPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(245, 158, 11, 0); }
+        }
+        
+        .interactive-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .interactive-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .interactive-card:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+        
+        .progress-ring {
+            transition: stroke-dasharray 0.5s ease-in-out;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen py-8">
-    <div class="container mx-auto px-4">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-                📚 ตารางเตรียมสอบครูผู้ช่วย 2568
-            </h1>
-            <p class="text-xl text-white opacity-90">
-                กำหนดการเรียนและฝึกทำข้อสอบ เดือนกรกฎาคม - สิงหาคม 2568
-            </p>
+<body class="islamic-pattern min-h-screen">
+    <!-- Prayer Time Notification -->
+    <div id="prayerNotification" class="floating-prayer bg-green-500 text-white px-4 py-2 rounded-full shadow-lg hidden">
+        <div class="flex items-center space-x-2">
+            <span>🕌</span>
+            <span id="prayerText">เวลาละหมาด</span>
         </div>
+    </div>
 
-        <!-- Progress Bar -->
-        <div class="bg-white rounded-lg p-4 mb-6 table-shadow">
-            <div class="flex items-center justify-between mb-2">
-                <h3 class="text-lg font-semibold text-gray-800">📊 ความคืบหน้า</h3>
-                <span id="progressText" class="text-sm text-gray-600">0/30 งาน</span>
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-4 shadow-lg">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold">BanjuInsyaAllah</h1>
+                <p class="text-sm opacity-90" id="currentDate"></p>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-                <div id="progressBar" class="progress-bar bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full" style="width: 0%"></div>
-            </div>
-        </div>
-
-        <!-- Filter Controls -->
-        <div class="bg-white rounded-lg p-4 mb-6 table-shadow">
-            <h3 class="text-lg font-semibold mb-4 text-gray-800">🔍 กรองกิจกรรม</h3>
-            <div class="flex flex-wrap gap-2 mb-4">
-                <button onclick="filterTasks('all')" class="filter-btn active bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                    ทั้งหมด
-                </button>
-                <button onclick="filterTasks('live')" class="filter-btn bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
-                    🎥 LIVE ติว
-                </button>
-                <button onclick="filterTasks('exam')" class="filter-btn bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">
-                    📝 ข้อสอบเก่า
-                </button>
-                <button onclick="filterTasks('special')" class="filter-btn bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium">
-                    ⭐ กิจกรรมพิเศษ
-                </button>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button onclick="toggleView()" class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                    📱 สลับมุมมอง
-                </button>
-                <button onclick="resetProgress()" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                    🔄 รีเซ็ต
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Card View -->
-        <div id="cardView" class="card-view space-y-4 mb-6">
-            <!-- Cards will be generated by JavaScript -->
-        </div>
-
-        <!-- Table Container -->
-        <div id="tableView" class="table-view bg-white rounded-lg table-shadow overflow-hidden">
-            <div class="table-container">
-                <table class="w-full">
-                    <thead class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                        <tr>
-                            <th class="px-4 py-4 text-left font-semibold">วัน</th>
-                            <th class="px-4 py-4 text-left font-semibold">วันที่</th>
-                            <th class="px-4 py-4 text-left font-semibold">🌆 เย็น (19:00-21:00)</th>
-                            <th class="px-4 py-4 text-left font-semibold">🌅 เช้า (05:00-06:00)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr class="task-row hover:bg-gray-50 transition-colors" data-type="live,exam" onclick="toggleTask(this)">
-                            <td class="px-4 py-3 font-medium text-gray-900">อังคาร</td>
-                            <td class="px-4 py-3 text-gray-700">15 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">
-                                <div class="flex items-center">
-                                    <input type="checkbox" class="mr-2 task-checkbox">
-                                    <span>LIVE ติว: ภาษาไทย ภาค ก</span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-3 exam-practice rounded-r">
-                                <div class="flex items-center">
-                                    <input type="checkbox" class="mr-2 task-checkbox">
-                                    <span>ข้อสอบเก่า: ภาษาไทย</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พุธ</td>
-                            <td class="px-4 py-3 text-gray-700">16 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: กฎหมาย ภาค ข</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: กฎหมาย ภาค ข</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พฤหัส</td>
-                            <td class="px-4 py-3 text-gray-700">17 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: คณิต&เหตุผล ภาค ก</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: คณิต&เหตุผล</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">ศุกร์</td>
-                            <td class="px-4 py-3 text-gray-700">18 ก.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 1 + สรุปจุดอ่อน</td>
-                            <td class="px-4 py-3">ข้อสอบชุดรวม 1 (ภาค ก/ข)</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">เสาร์</td>
-                            <td class="px-4 py-3 text-gray-700">19 ก.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบเอกวิทยาศาสตร์ + สรุปเทคนิค/โจทย์ยาก</td>
-                            <td class="px-4 py-3">ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">อาทิตย์</td>
-                            <td class="px-4 py-3 text-gray-700">20 ก.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ทบทวนข้อสอบเอกวิทย์+เฉลยข้อผิด/วางแผนจุดอ่อน</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">จันทร์</td>
-                            <td class="px-4 py-3 text-gray-700">21 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: วิชาการศึกษา ภาค ข</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">อังคาร</td>
-                            <td class="px-4 py-3 text-gray-700">22 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: ภาษาไทย</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พุธ</td>
-                            <td class="px-4 py-3 text-gray-700">23 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: กฎหมาย ภาค ข</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: กฎหมาย ภาค ข</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พฤหัส</td>
-                            <td class="px-4 py-3 text-gray-700">24 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: คณิต&เหตุผล ภาค ก</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: คณิต&เหตุผล</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">ศุกร์</td>
-                            <td class="px-4 py-3 text-gray-700">25 ก.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 2 + วิเคราะห์โจทย์</td>
-                            <td class="px-4 py-3">ข้อสอบชุดรวม 2 (ภาค ก/ข)</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">เสาร์</td>
-                            <td class="px-4 py-3 text-gray-700">26 ก.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบเอกวิทยาศาสตร์ + สรุปข้อผิด/สูตรลัด</td>
-                            <td class="px-4 py-3">ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">อาทิตย์</td>
-                            <td class="px-4 py-3 text-gray-700">27 ก.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 วิเคราะห์ข้อผิดเอกวิทย์/ฝึกบททดลอง</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">จันทร์</td>
-                            <td class="px-4 py-3 text-gray-700">28 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: วิชาการศึกษา ภาค ข</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">อังคาร</td>
-                            <td class="px-4 py-3 text-gray-700">29 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: ภาษาไทย</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พุธ</td>
-                            <td class="px-4 py-3 text-gray-700">30 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: กฎหมาย ภาค ก</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: กฎหมาย ภาค ก</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พฤหัส</td>
-                            <td class="px-4 py-3 text-gray-700">31 ก.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: คณิต&เหตุผล ภาค ก</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: คณิต&เหตุผล</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">ศุกร์</td>
-                            <td class="px-4 py-3 text-gray-700">1 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 3 + สรุปโจทย์วิเคราะห์</td>
-                            <td class="px-4 py-3">ข้อสอบชุดรวม 3 (ภาค ก/ข)</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">เสาร์</td>
-                            <td class="px-4 py-3 text-gray-700">2 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบเอกวิทยาศาสตร์ + วนโจทย์เก่าหัวข้อที่ผิด</td>
-                            <td class="px-4 py-3">ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">อาทิตย์</td>
-                            <td class="px-4 py-3 text-gray-700">3 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ฝึกเอกวิทย์: โจทย์แนวประยุกต์ + สรุปจุดอ่อน</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">จันทร์</td>
-                            <td class="px-4 py-3 text-gray-700">4 ส.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: วิชาการศึกษา ภาค ข</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">อังคาร</td>
-                            <td class="px-4 py-3 text-gray-700">5 ส.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: ภาษาไทย</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พุธ</td>
-                            <td class="px-4 py-3 text-gray-700">6 ส.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: กฎหมาย ภาค ก</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: กฎหมาย ภาค ก</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-4 py-3 font-medium text-gray-900">พฤหัส</td>
-                            <td class="px-4 py-3 text-gray-700">7 ส.ค.</td>
-                            <td class="px-4 py-3 live-session rounded-l">LIVE ติว: คณิต&เหตุผล ภาค ก</td>
-                            <td class="px-4 py-3 exam-practice rounded-r">ข้อสอบเก่า: คณิต&เหตุผล</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">ศุกร์</td>
-                            <td class="px-4 py-3 text-gray-700">8 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 4 + สรุป Mindmap</td>
-                            <td class="px-4 py-3">ข้อสอบชุดรวม 4 (ภาค ก/ข)</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">เสาร์</td>
-                            <td class="px-4 py-3 text-gray-700">9 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบเอกวิทยาศาสตร์ + ทบทวนสูตร/เทคนิค</td>
-                            <td class="px-4 py-3">ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย</td>
-                        </tr>
-                        <tr class="highlight-row hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">อาทิตย์</td>
-                            <td class="px-4 py-3 text-gray-700">10 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบเอกวิทย์/ฝึกจับเวลา+เฉลยจุดอ่อน</td>
-                            <td class="px-4 py-3 font-semibold">🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา</td>
-                        </tr>
-                        <tr class="special-activity hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">จันทร์</td>
-                            <td class="px-4 py-3 text-gray-700">11 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🔥 สรุปจุดอ่อน/ข้อผิดซ้ำ เอกวิทยาศาสตร์</td>
-                            <td class="px-4 py-3">ทบทวนสูตร/เทคนิคเร็ว</td>
-                        </tr>
-                        <tr class="special-activity hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">อังคาร</td>
-                            <td class="px-4 py-3 text-gray-700">12 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🔥 ข้อสอบเอกปีล่าสุด+วิเคราะห์ข้อผิด</td>
-                            <td class="px-4 py-3">ทบทวนเฉลยข้อสอบ</td>
-                        </tr>
-                        <tr class="special-activity hover:opacity-80 transition-opacity">
-                            <td class="px-4 py-3 font-medium text-gray-900">พุธ</td>
-                            <td class="px-4 py-3 text-gray-700">13 ส.ค.</td>
-                            <td class="px-4 py-3 font-semibold">🔥 สรุป mindmap เอกวิทย์/ทวนจุดอ่อนสุดท้าย</td>
-                            <td class="px-4 py-3 bg-green-100">😴 พักผ่อน เตรียมสอบ</td>
-                        </tr>
-                        <tr class="bg-red-100 hover:bg-red-200 transition-colors">
-                            <td class="px-4 py-3 font-bold text-red-800">พฤหัส</td>
-                            <td class="px-4 py-3 font-bold text-red-800">14 ส.ค.</td>
-                            <td class="px-4 py-3 font-bold text-red-800">🚨 เฉลยข้อผิดซ้ำ/ทวนข้อสอบวิชาเอก</td>
-                            <td class="px-4 py-3 font-bold text-red-800">😴 พักเต็มที่ (คืนก่อนสอบ)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-8">
-            <div class="bg-white rounded-lg p-6 table-shadow">
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">💪 สู้ๆ นะครับ!</h3>
-                <p class="text-gray-600">ติดตามตารางนี้อย่างสม่ำเสมอ จะช่วยให้การเตรียมตัวสอบมีประสิทธิภาพมากขึ้น</p>
-                <div class="mt-4 flex justify-center space-x-4 text-sm text-gray-500">
-                    <span>📅 ระยะเวลา: 1 เดือน</span>
-                    <span>📚 วิชาหลัก: 4 วิชา</span>
-                    <span>🎯 เอกวิทยาศาสตร์</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Floating Progress -->
-        <div id="floatingProgress" class="floating-progress bg-white rounded-full p-3 table-shadow">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
-                    <span id="floatingPercent" class="text-white text-xs font-bold">0%</span>
-                </div>
-                <span id="floatingText" class="text-xs font-medium hidden md:block">0/60</span>
+            <div class="text-center">
+                <div class="text-2xl font-bold" id="currentTime"></div>
+                <div class="text-xs" id="nextPrayer"></div>
             </div>
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="pb-20">
+        <!-- Home Tab -->
+        <div id="homeTab" class="tab-content p-4">
+            <!-- Motivational Quote -->
+            <div class="bg-white rounded-xl p-4 mb-4 shadow-md border-l-4 border-green-500">
+                <div class="flex items-start space-x-3">
+                    <span class="text-2xl">📖</span>
+                    <div>
+                        <p class="text-gray-700 font-medium" id="motivationalQuote">
+                            "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا"
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1" id="quoteTranslation">
+                            "ผู้ใดยำเกรงอัลลอฮ์ พระองค์จะทรงให้ทางออกแก่เขา"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Progress -->
+            <div class="bg-white rounded-xl p-4 mb-4 shadow-md interactive-card">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-lg text-gray-800">ความคืบหน้าวันนี้</h3>
+                    <div class="relative">
+                        <svg class="w-12 h-12 transform -rotate-90">
+                            <circle cx="24" cy="24" r="20" stroke="#e5e7eb" stroke-width="4" fill="none"/>
+                            <circle cx="24" cy="24" r="20" stroke="#3b82f6" stroke-width="4" fill="none" 
+                                    stroke-dasharray="125.6" stroke-dashoffset="125.6" id="progressCircle" class="progress-ring"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-xs font-bold text-blue-600" id="progressPercent">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">กิจกรรมที่เสร็จแล้ว</span>
+                        <span class="font-bold text-blue-600 bounce-in" id="completedTasks">0/17</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-3 rounded-full transition-all duration-500" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="text-center mt-2">
+                        <span class="text-sm text-gray-500" id="currentActivityStatus">🎯 กำลังรอกิจกรรมถัดไป...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <button onclick="showTab('scheduleTab')" class="bg-white rounded-xl p-4 shadow-md text-center interactive-card">
+                    <div class="text-3xl mb-2">📅</div>
+                    <div class="font-medium text-gray-800">ตารางวันนี้</div>
+                    <div class="text-xs text-gray-500 mt-1" id="todayActivitiesCount">17 กิจกรรม</div>
+                </button>
+                <button onclick="showTab('examTab')" class="bg-white rounded-xl p-4 shadow-md text-center interactive-card">
+                    <div class="text-3xl mb-2">📚</div>
+                    <div class="font-medium text-gray-800">ตารางเตรียมสอบ</div>
+                    <div class="text-xs text-gray-500 mt-1" id="examDaysLeft">30 วัน</div>
+                </button>
+            </div>
+
+            <!-- Today's Schedule Preview -->
+            <div class="bg-white rounded-xl p-4 shadow-md">
+                <h3 class="font-bold text-lg mb-3 text-gray-800">กิจกรรมวันนี้</h3>
+                <div id="todaySchedule" class="space-y-2">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Schedule Tab -->
+        <div id="scheduleTab" class="tab-content hidden p-4">
+            <div class="bg-white rounded-xl shadow-md mb-4">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-lg text-gray-800">กิจวัตรประจำวัน</h3>
+                    <p class="text-sm text-gray-600">แตะเพื่อเช็คกิจกรรมที่เสร็จแล้ว</p>
+                </div>
+                <div id="dailyScheduleList" class="divide-y divide-gray-100">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Schedule Tab -->
+        <div id="examTab" class="tab-content hidden p-4">
+            <div class="bg-white rounded-xl shadow-md mb-4">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-lg text-gray-800">ตารางเตรียมสอบ</h3>
+                    <div class="flex space-x-2 mt-2">
+                        <button onclick="showExamView('week')" class="exam-view-btn bg-blue-500 text-white px-3 py-1 rounded-full text-sm">สัปดาห์</button>
+                        <button onclick="showExamView('month')" class="exam-view-btn bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-sm">เดือน</button>
+                    </div>
+                </div>
+                <div id="examScheduleContent">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Tab -->
+        <div id="notesTab" class="tab-content hidden p-4">
+            <div class="bg-white rounded-xl shadow-md mb-4">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-lg text-gray-800">บันทึกและโน้ต</h3>
+                </div>
+                <div class="p-4">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">บันทึกข้อผิดพลาด/จุดอ่อน</label>
+                        <textarea id="weaknessNotes" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" rows="4" placeholder="บันทึกข้อที่ทำผิดหรือจุดที่ต้องปรับปรุง..."></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">เทคนิคและสูตรสำคัญ</label>
+                        <textarea id="techniquesNotes" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" rows="4" placeholder="บันทึกเทคนิคการทำข้อสอบ สูตรสำคัญ..."></textarea>
+                    </div>
+                    <button onclick="saveNotes()" class="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                        บันทึก
+                    </button>
+                </div>
+            </div>
+
+            <!-- Saved Notes Display -->
+            <div class="bg-white rounded-xl shadow-md">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-lg text-gray-800">บันทึกที่บันทึกไว้</h3>
+                </div>
+                <div id="savedNotes" class="p-4">
+                    <p class="text-gray-500 text-center">ยังไม่มีบันทึก</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settingsTab" class="tab-content hidden p-4">
+            <div class="bg-white rounded-xl shadow-md">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-lg text-gray-800">ตั้งค่า</h3>
+                </div>
+                <div class="p-4 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">แจ้งเตือนเวลาละหมาด</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="prayerNotifications" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">แจ้งเตือนกิจกรรมการเรียน</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="studyNotifications" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <button onclick="resetProgress()" class="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition-colors">
+                        รีเซ็ตความคืบหน้า
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+        <div class="flex justify-around py-2">
+            <button onclick="showTab('homeTab')" class="nav-btn flex flex-col items-center py-2 px-4 tab-active">
+                <span class="text-xl mb-1">🏠</span>
+                <span class="text-xs">หน้าหลัก</span>
+            </button>
+            <button onclick="showTab('scheduleTab')" class="nav-btn flex flex-col items-center py-2 px-4">
+                <span class="text-xl mb-1">📅</span>
+                <span class="text-xs">กิจวัตร</span>
+            </button>
+            <button onclick="showTab('examTab')" class="nav-btn flex flex-col items-center py-2 px-4">
+                <span class="text-xl mb-1">📚</span>
+                <span class="text-xs">ตารางเตรียมสอบ</span>
+            </button>
+            <button onclick="showTab('notesTab')" class="nav-btn flex flex-col items-center py-2 px-4">
+                <span class="text-xl mb-1">📝</span>
+                <span class="text-xs">บันทึก</span>
+            </button>
+            <button onclick="showTab('settingsTab')" class="nav-btn flex flex-col items-center py-2 px-4">
+                <span class="text-xl mb-1">⚙️</span>
+                <span class="text-xs">ตั้งค่า</span>
+            </button>
+        </div>
+    </div>
+
     <script>
-        // Data structure for tasks
-        const tasks = [
-            {day: 'อังคาร', date: '15 ก.ค.', evening: 'LIVE ติว: ภาษาไทย ภาค ก', morning: 'ข้อสอบเก่า: ภาษาไทย', type: ['live', 'exam']},
-            {day: 'พุธ', date: '16 ก.ค.', evening: 'LIVE ติว: กฎหมาย ภาค ข', morning: 'ข้อสอบเก่า: กฎหมาย ภาค ข', type: ['live', 'exam']},
-            {day: 'พฤหัส', date: '17 ก.ค.', evening: 'LIVE ติว: คณิต&เหตุผล ภาค ก', morning: 'ข้อสอบเก่า: คณิต&เหตุผล', type: ['live', 'exam']},
-            {day: 'ศุกร์', date: '18 ก.ค.', evening: '🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 1 + สรุปจุดอ่อน', morning: 'ข้อสอบชุดรวม 1 (ภาค ก/ข)', type: ['special', 'exam'], highlight: true},
-            {day: 'เสาร์', date: '19 ก.ค.', evening: '🎯 ข้อสอบเอกวิทยาศาสตร์ + สรุปเทคนิค/โจทย์ยาก', morning: 'ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย', type: ['special', 'exam'], highlight: true},
-            {day: 'อาทิตย์', date: '20 ก.ค.', evening: '🎯 ทบทวนข้อสอบเอกวิทย์+เฉลยข้อผิด/วางแผนจุดอ่อน', morning: '🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา', type: ['special'], highlight: true},
-            {day: 'จันทร์', date: '21 ก.ค.', evening: 'LIVE ติว: วิชาการศึกษา ภาค ข', morning: 'ข้อสอบเก่า: วิชาการศึกษา', type: ['live', 'exam']},
-            {day: 'อังคาร', date: '22 ก.ค.', evening: 'LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)', morning: 'ข้อสอบเก่า: ภาษาไทย', type: ['live', 'exam']},
-            {day: 'พุธ', date: '23 ก.ค.', evening: 'LIVE ติว: กฎหมาย ภาค ข', morning: 'ข้อสอบเก่า: กฎหมาย ภาค ข', type: ['live', 'exam']},
-            {day: 'พฤหัส', date: '24 ก.ค.', evening: 'LIVE ติว: คณิต&เหตุผล ภาค ก', morning: 'ข้อสอบเก่า: คณิต&เหตุผล', type: ['live', 'exam']},
-            {day: 'ศุกร์', date: '25 ก.ค.', evening: '🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 2 + วิเคราะห์โจทย์', morning: 'ข้อสอบชุดรวม 2 (ภาค ก/ข)', type: ['special', 'exam'], highlight: true},
-            {day: 'เสาร์', date: '26 ก.ค.', evening: '🎯 ข้อสอบเอกวิทยาศาสตร์ + สรุปข้อผิด/สูตรลัด', morning: 'ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย', type: ['special', 'exam'], highlight: true},
-            {day: 'อาทิตย์', date: '27 ก.ค.', evening: '🎯 วิเคราะห์ข้อผิดเอกวิทย์/ฝึกบททดลอง', morning: '🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา', type: ['special'], highlight: true},
-            {day: 'จันทร์', date: '28 ก.ค.', evening: 'LIVE ติว: วิชาการศึกษา ภาค ข', morning: 'ข้อสอบเก่า: วิชาการศึกษา', type: ['live', 'exam']},
-            {day: 'อังคาร', date: '29 ก.ค.', evening: 'LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)', morning: 'ข้อสอบเก่า: ภาษาไทย', type: ['live', 'exam']},
-            {day: 'พุธ', date: '30 ก.ค.', evening: 'LIVE ติว: กฎหมาย ภาค ก', morning: 'ข้อสอบเก่า: กฎหมาย ภาค ก', type: ['live', 'exam']},
-            {day: 'พฤหัส', date: '31 ก.ค.', evening: 'LIVE ติว: คณิต&เหตุผล ภาค ก', morning: 'ข้อสอบเก่า: คณิต&เหตุผล', type: ['live', 'exam']},
-            {day: 'ศุกร์', date: '1 ส.ค.', evening: '🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 3 + สรุปโจทย์วิเคราะห์', morning: 'ข้อสอบชุดรวม 3 (ภาค ก/ข)', type: ['special', 'exam'], highlight: true},
-            {day: 'เสาร์', date: '2 ส.ค.', evening: '🎯 ข้อสอบเอกวิทยาศาสตร์ + วนโจทย์เก่าหัวข้อที่ผิด', morning: 'ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย', type: ['special', 'exam'], highlight: true},
-            {day: 'อาทิตย์', date: '3 ส.ค.', evening: '🎯 ฝึกเอกวิทย์: โจทย์แนวประยุกต์ + สรุปจุดอ่อน', morning: '🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา', type: ['special'], highlight: true},
-            {day: 'จันทร์', date: '4 ส.ค.', evening: 'LIVE ติว: วิชาการศึกษา ภาค ข', morning: 'ข้อสอบเก่า: วิชาการศึกษา', type: ['live', 'exam']},
-            {day: 'อังคาร', date: '5 ส.ค.', evening: 'LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)', morning: 'ข้อสอบเก่า: ภาษาไทย', type: ['live', 'exam']},
-            {day: 'พุธ', date: '6 ส.ค.', evening: 'LIVE ติว: กฎหมาย ภาค ก', morning: 'ข้อสอบเก่า: กฎหมาย ภาค ก', type: ['live', 'exam']},
-            {day: 'พฤหัส', date: '7 ส.ค.', evening: 'LIVE ติว: คณิต&เหตุผล ภาค ก', morning: 'ข้อสอบเก่า: คณิต&เหตุผล', type: ['live', 'exam']},
-            {day: 'ศุกร์', date: '8 ส.ค.', evening: '🎯 ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 4 + สรุป Mindmap', morning: 'ข้อสอบชุดรวม 4 (ภาค ก/ข)', type: ['special', 'exam'], highlight: true},
-            {day: 'เสาร์', date: '9 ส.ค.', evening: '🎯 ข้อสอบเอกวิทยาศาสตร์ + ทบทวนสูตร/เทคนิค', morning: 'ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย', type: ['special', 'exam'], highlight: true},
-            {day: 'อาทิตย์', date: '10 ส.ค.', evening: '🎯 ข้อสอบเอกวิทย์/ฝึกจับเวลา+เฉลยจุดอ่อน', morning: '🎯 ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา', type: ['special'], highlight: true},
-            {day: 'จันทร์', date: '11 ส.ค.', evening: '🔥 สรุปจุดอ่อน/ข้อผิดซ้ำ เอกวิทยาศาสตร์', morning: 'ทบทวนสูตร/เทคนิคเร็ว', type: ['special']},
-            {day: 'อังคาร', date: '12 ส.ค.', evening: '🔥 ข้อสอบเอกปีล่าสุด+วิเคราะห์ข้อผิด', morning: 'ทบทวนเฉลยข้อสอบ', type: ['special']},
-            {day: 'พุธ', date: '13 ส.ค.', evening: '🔥 สรุป mindmap เอกวิทย์/ทวนจุดอ่อนสุดท้าย', morning: '😴 พักผ่อน เตรียมสอบ', type: ['special']},
-            {day: 'พฤหัส', date: '14 ส.ค.', evening: '🚨 เฉลยข้อผิดซ้ำ/ทวนข้อสอบวิชาเอก', morning: '😴 พักเต็มที่ (คืนก่อนสอบ)', type: ['special'], examDay: true}
+        // Data
+        const dailySchedule = [
+            { time: "03:00", activity: "🌙 ตื่น, ละหมาดตัฮญุด + วิติรฺ + ดุอาอ์, ทบทวนซิกิรฺ", type: "prayer", completed: false, emoji: "🕌" },
+            { time: "03:40", activity: "📖 อ่านกุรอาน/ซูเราะห์, mindmap วิชาสอบ", type: "study", completed: false, emoji: "📚" },
+            { time: "04:40", activity: "🌅 ละหมาดฟัจรฺ (Subuh)", type: "prayer", completed: false, emoji: "🕌" },
+            { time: "05:00", activity: "📝 ฝึกข้อสอบเก่า/วิเคราะห์ข้อผิด/ทบทวน LIVE", type: "study", completed: false, emoji: "💪" },
+            { time: "06:00", activity: "🍽️ ทานข้าว, เตรียมงาน, ออกกำลังกายเบาๆ", type: "break", completed: false, emoji: "🏃‍♂️" },
+            { time: "06:30", activity: "🎒 เตรียมสอน/เดินทาง", type: "break", completed: false, emoji: "🚗" },
+            { time: "08:00", activity: "👨‍🏫 งานสอน/งานหลัก", type: "work", completed: false, emoji: "🏫" },
+            { time: "12:15", activity: "☀️ ละหมาดซุโฮร์ (Dhuhr), พัก/ทบทวน mindmap", type: "prayer", completed: false, emoji: "🕌" },
+            { time: "13:00", activity: "📚 สอน/งานต่อ", type: "work", completed: false, emoji: "👨‍🏫" },
+            { time: "15:45", activity: "🌤️ ละหมาดอัสรฺ (Asr), พักสายตา", type: "prayer", completed: false, emoji: "🕌" },
+            { time: "16:30", activity: "🎯 ทบทวน/ฝึกข้อสอบ/วิเคราะห์ LIVE", type: "study", completed: false, emoji: "🧠" },
+            { time: "18:45", activity: "🌆 ละหมาดมักริบ (Maghrib), พัก/ทานข้าว/ซิกิรฺ", type: "prayer", completed: false, emoji: "🕌" },
+            { time: "19:00", activity: "📺 LIVE ติว/ข้อสอบเก่า/สรุป mindmap", type: "study", completed: false, emoji: "🎓" },
+            { time: "20:00", activity: "🌃 ละหมาดอิชาอฺ (Isha)", type: "prayer", completed: false, emoji: "🕌" },
+            { time: "21:00", activity: "✏️ สรุปข้อผิด/Highlight/ทบทวนดุอาอ์", type: "study", completed: false, emoji: "📋" },
+            { time: "21:15", activity: "📱 ปิดมือถือ-เตรียมนอน/ซิกิรฺ/อ่านดุอาอ์", type: "break", completed: false, emoji: "🤲" },
+            { time: "21:40", activity: "😴 หลับ (ตั้งปลุกตี 3 สำหรับตาฮัจญุด)", type: "sleep", completed: false, emoji: "💤" }
         ];
 
+        const examSchedule = [
+            { date: "15 ก.ค.", day: "อังคาร", evening: "LIVE ติว: ภาษาไทย ภาค ก", morning: "ข้อสอบเก่า: ภาษาไทย", isSpecial: false },
+            { date: "16 ก.ค.", day: "พุธ", evening: "LIVE ติว: กฎหมาย ภาค ข", morning: "ข้อสอบเก่า: กฎหมาย ภาค ข", isSpecial: false },
+            { date: "17 ก.ค.", day: "พฤหัส", evening: "LIVE ติว: คณิต&เหตุผล ภาค ก", morning: "ข้อสอบเก่า: คณิต&เหตุผล", isSpecial: false },
+            { date: "18 ก.ค.", day: "ศุกร์", evening: "ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 1 + สรุปจุดอ่อน", morning: "ข้อสอบชุดรวม 1 (ภาค ก/ข)", isSpecial: true },
+            { date: "19 ก.ค.", day: "เสาร์", evening: "ข้อสอบเอกวิทยาศาสตร์ + สรุปเทคนิค/โจทย์ยาก", morning: "ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย", isSpecial: true },
+            { date: "20 ก.ค.", day: "อาทิตย์", evening: "ทบทวนข้อสอบเอกวิทย์+เฉลยข้อผิด/วางแผนจุดอ่อน", morning: "ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา", isSpecial: true },
+            { date: "21 ก.ค.", day: "จันทร์", evening: "LIVE ติว: วิชาการศึกษา ภาค ข", morning: "ข้อสอบเก่า: วิชาการศึกษา", isSpecial: false },
+            { date: "22 ก.ค.", day: "อังคาร", evening: "LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)", morning: "ข้อสอบเก่า: ภาษาไทย", isSpecial: false },
+            { date: "23 ก.ค.", day: "พุธ", evening: "LIVE ติว: กฎหมาย ภาค ข", morning: "ข้อสอบเก่า: กฎหมาย ภาค ข", isSpecial: false },
+            { date: "24 ก.ค.", day: "พฤหัส", evening: "LIVE ติว: คณิต&เหตุผล ภาค ก", morning: "ข้อสอบเก่า: คณิต&เหตุผล", isSpecial: false },
+            { date: "25 ก.ค.", day: "ศุกร์", evening: "ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 2 + วิเคราะห์โจทย์", morning: "ข้อสอบชุดรวม 2 (ภาค ก/ข)", isSpecial: true },
+            { date: "26 ก.ค.", day: "เสาร์", evening: "ข้อสอบเอกวิทยาศาสตร์ + สรุปข้อผิด/สูตรลัด", morning: "ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย", isSpecial: true },
+            { date: "27 ก.ค.", day: "อาทิตย์", evening: "วิเคราะห์ข้อผิดเอกวิทย์/ฝึกบททดลอง", morning: "ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา", isSpecial: true },
+            { date: "28 ก.ค.", day: "จันทร์", evening: "LIVE ติว: วิชาการศึกษา ภาค ข", morning: "ข้อสอบเก่า: วิชาการศึกษา", isSpecial: false },
+            { date: "29 ก.ค.", day: "อังคาร", evening: "LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)", morning: "ข้อสอบเก่า: ภาษาไทย", isSpecial: false },
+            { date: "30 ก.ค.", day: "พุธ", evening: "LIVE ติว: กฎหมาย ภาค ก", morning: "ข้อสอบเก่า: กฎหมาย ภาค ก", isSpecial: false },
+            { date: "31 ก.ค.", day: "พฤหัส", evening: "LIVE ติว: คณิต&เหตุผล ภาค ก", morning: "ข้อสอบเก่า: คณิต&เหตุผล", isSpecial: false },
+            { date: "1 ส.ค.", day: "ศุกร์", evening: "ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 3 + สรุปโจทย์วิเคราะห์", morning: "ข้อสอบชุดรวม 3 (ภาค ก/ข)", isSpecial: true },
+            { date: "2 ส.ค.", day: "เสาร์", evening: "ข้อสอบเอกวิทยาศาสตร์ + วนโจทย์เก่าหัวข้อที่ผิด", morning: "ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย", isSpecial: true },
+            { date: "3 ส.ค.", day: "อาทิตย์", evening: "ฝึกเอกวิทย์: โจทย์แนวประยุกต์ + สรุปจุดอ่อน", morning: "ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา", isSpecial: true },
+            { date: "4 ส.ค.", day: "จันทร์", evening: "LIVE ติว: วิชาการศึกษา ภาค ข", morning: "ข้อสอบเก่า: วิชาการศึกษา", isSpecial: false },
+            { date: "5 ส.ค.", day: "อังคาร", evening: "LIVE ติว: ภาษาไทย ภาค ก (21.00 อังกฤษ)", morning: "ข้อสอบเก่า: ภาษาไทย", isSpecial: false },
+            { date: "6 ส.ค.", day: "พุธ", evening: "LIVE ติว: กฎหมาย ภาค ก", morning: "ข้อสอบเก่า: กฎหมาย ภาค ก", isSpecial: false },
+            { date: "7 ส.ค.", day: "พฤหัส", evening: "LIVE ติว: คณิต&เหตุผล ภาค ก", morning: "ข้อสอบเก่า: คณิต&เหตุผล", isSpecial: false },
+            { date: "8 ส.ค.", day: "ศุกร์", evening: "ฝึกข้อสอบเอกวิทยาศาสตร์ ชุด 4 + สรุป Mindmap", morning: "ข้อสอบชุดรวม 4 (ภาค ก/ข)", isSpecial: true },
+            { date: "9 ส.ค.", day: "เสาร์", evening: "ข้อสอบเอกวิทยาศาสตร์ + ทบทวนสูตร/เทคนิค", morning: "ข้อสอบจับเวลา: ภาษาไทย+กฎหมาย", isSpecial: true },
+            { date: "10 ส.ค.", day: "อาทิตย์", evening: "ข้อสอบเอกวิทย์/ฝึกจับเวลา+เฉลยจุดอ่อน", morning: "ข้อสอบจับเวลา: คณิต&เหตุผล+วิชาการศึกษา", isSpecial: true },
+            { date: "11 ส.ค.", day: "จันทร์", evening: "สรุปจุดอ่อน/ข้อผิดซ้ำ เอกวิทยาศาสตร์", morning: "ทบทวนสูตร/เทคนิคเร็ว", isSpecial: true },
+            { date: "12 ส.ค.", day: "อังคาร", evening: "ข้อสอบเอกปีล่าสุด+วิเคราะห์ข้อผิด", morning: "ทบทวนเฉลยข้อสอบ", isSpecial: true },
+            { date: "13 ส.ค.", day: "พุธ", evening: "สรุป mindmap เอกวิทย์/ทวนจุดอ่อนสุดท้าย", morning: "พักผ่อน เตรียมสอบ", isSpecial: true },
+            { date: "14 ส.ค.", day: "พฤหัส", evening: "เฉลยข้อผิดซ้ำ/ทวนข้อสอบวิชาเอก", morning: "พักเต็มที่ (คืนก่อนสอบ)", isSpecial: true }
+        ];
+
+        const motivationalQuotes = [
+            {
+                arabic: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا",
+                translation: "ผู้ใดยำเกรงอัลลอฮ์ พระองค์จะทรงให้ทางออกแก่เขา"
+            },
+            {
+                arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+                translation: "ผู้ใดวางใจในอัลลอฮ์ พระองค์ก็เพียงพอสำหรับเขา"
+            },
+            {
+                arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+                translation: "แท้จริงความยากลำบากมาพร้อมกับความง่ายดาย"
+            }
+        ];
+
+        const prayerTimes = [
+            { name: "🌅 ฟัจรฺ", time: "04:40" },
+            { name: "☀️ ซุโฮร์", time: "12:15" },
+            { name: "🌤️ อัสรฺ", time: "15:45" },
+            { name: "🌆 มักริบ", time: "18:45" },
+            { name: "🌃 อิชาอฺ", time: "20:00" }
+        ];
+
+        // State
+        let currentExamView = 'week';
         let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
-        let currentFilter = 'all';
-        let isCardView = window.innerWidth <= 768;
+        let savedNotesData = JSON.parse(localStorage.getItem('savedNotes')) || [];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            generateCards();
-            updateProgress();
-            updateView();
-        });
-
-        // Generate mobile cards
-        function generateCards() {
-            const cardContainer = document.getElementById('cardView');
-            cardContainer.innerHTML = '';
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            setInterval(checkPrayerTime, 60000);
+            setInterval(updateCurrentActivityStatus, 60000); // Update current activity every minute
+            setInterval(loadDailySchedule, 300000); // Refresh schedule every 5 minutes
             
-            tasks.forEach((task, index) => {
-                const card = document.createElement('div');
-                card.className = `task-card bg-white rounded-lg p-4 table-shadow ${task.highlight ? 'border-l-4 border-yellow-400' : ''} ${task.examDay ? 'border-l-4 border-red-500 bg-red-50' : ''}`;
-                card.dataset.type = task.type.join(',');
+            loadDailySchedule();
+            loadExamSchedule();
+            updateProgress();
+            loadRandomQuote();
+            loadSavedNotes();
+            loadTodaySchedule();
+            updateExamDaysCounter();
+            
+            // Add staggered animation to initial load
+            setTimeout(() => {
+                document.querySelectorAll('.interactive-card').forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.classList.add('slide-up');
+                });
+            }, 100);
+        });
+        
+        function updateExamDaysCounter() {
+            const examDate = new Date('2025-08-14'); // Updated to future exam date
+            const today = new Date();
+            const diffTime = examDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            const examDaysEl = document.getElementById('examDaysLeft');
+            if (diffDays > 30) {
+                examDaysEl.textContent = `${diffDays} วันเหลือ`;
+                examDaysEl.className = 'text-xs text-blue-500 font-medium';
+            } else if (diffDays > 7) {
+                examDaysEl.textContent = `${diffDays} วันเหลือ`;
+                examDaysEl.className = 'text-xs text-orange-500 font-medium';
+            } else if (diffDays > 0) {
+                examDaysEl.textContent = `${diffDays} วันเหลือ`;
+                examDaysEl.className = 'text-xs text-red-500 font-medium animate-pulse';
+            } else if (diffDays === 0) {
+                examDaysEl.textContent = 'วันสอบ!';
+                examDaysEl.className = 'text-xs text-red-600 font-bold animate-pulse';
+            } else {
+                examDaysEl.textContent = 'เตรียมสอบ';
+                examDaysEl.className = 'text-xs text-blue-600 font-medium';
+            }
+        }
+
+        // Functions
+        function updateDateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('th-TH', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const dateString = now.toLocaleDateString('th-TH', { 
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('currentTime').textContent = timeString;
+            document.getElementById('currentDate').textContent = dateString;
+            
+            updateNextPrayer();
+        }
+
+        function updateNextPrayer() {
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            for (let prayer of prayerTimes) {
+                const [hours, minutes] = prayer.time.split(':').map(Number);
+                const prayerTime = hours * 60 + minutes;
                 
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h3 class="font-semibold text-lg text-gray-800">${task.day}</h3>
-                            <p class="text-sm text-gray-600">${task.date}</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-xs px-2 py-1 rounded-full ${getTypeColor(task.type[0])}">${getTypeLabel(task.type[0])}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <div class="flex items-start space-x-3">
-                            <input type="checkbox" class="mt-1 task-checkbox" data-task="${index}-evening" ${completedTasks.includes(`${index}-evening`) ? 'checked' : ''} onchange="updateTaskStatus('${index}-evening', this.checked)">
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">🌆 เย็น (19:00-21:00)</div>
-                                <div class="text-sm ${completedTasks.includes(`${index}-evening`) ? 'line-through text-gray-500' : ''}">${task.evening}</div>
+                if (currentTime < prayerTime) {
+                    const diff = prayerTime - currentTime;
+                    const hoursLeft = Math.floor(diff / 60);
+                    const minutesLeft = diff % 60;
+                    document.getElementById('nextPrayer').textContent = 
+                        `${prayer.name} ใน ${hoursLeft}:${minutesLeft.toString().padStart(2, '0')}`;
+                    return;
+                }
+            }
+            
+            // If no prayer left today, show tomorrow's Fajr
+            document.getElementById('nextPrayer').textContent = `ฟัจรฺ พรุ่งนี้`;
+        }
+
+        function checkPrayerTime() {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            const prayer = prayerTimes.find(p => p.time === currentTime);
+            if (prayer && document.getElementById('prayerNotifications').checked) {
+                showPrayerNotification(prayer.name);
+            }
+        }
+
+        function showPrayerNotification(prayerName) {
+            const notification = document.getElementById('prayerNotification');
+            document.getElementById('prayerText').textContent = `เวลา${prayerName}`;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 5000);
+        }
+
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            // Add active class to clicked nav button
+            event.target.closest('.nav-btn').classList.add('tab-active');
+        }
+
+        function loadDailySchedule() {
+            const container = document.getElementById('dailyScheduleList');
+            container.innerHTML = '';
+            
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+            
+            dailySchedule.forEach((item, index) => {
+                const isCompleted = completedTasks.includes(index);
+                const typeClass = getTypeClass(item.type);
+                const [hour, minute] = item.time.split(':').map(Number);
+                const itemTime = hour * 60 + minute;
+                
+                let statusClass = '';
+                let statusIcon = isCompleted ? '✅' : '⭕';
+                
+                // Check if this is current activity (within 1 hour window)
+                if (!isCompleted && itemTime <= currentTime && currentTime < itemTime + 60) {
+                    statusClass = 'current-activity';
+                    statusIcon = '🔥';
+                } else if (!isCompleted && itemTime > currentTime && itemTime <= currentTime + 120) {
+                    statusClass = 'upcoming-activity';
+                    statusIcon = '⏰';
+                }
+                
+                const scheduleItem = document.createElement('div');
+                scheduleItem.className = `schedule-card p-4 cursor-pointer hover:bg-gray-50 transition-all ${isCompleted ? 'completed' : ''} ${statusClass} slide-up`;
+                scheduleItem.onclick = () => toggleTask(index);
+                scheduleItem.style.animationDelay = `${index * 0.1}s`;
+                
+                scheduleItem.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">${item.emoji}</span>
+                            <div class="${typeClass} text-white px-3 py-1 rounded-full text-sm font-medium min-w-16 text-center">
+                                ${item.time}
                             </div>
                         </div>
-                        
-                        <div class="flex items-start space-x-3">
-                            <input type="checkbox" class="mt-1 task-checkbox" data-task="${index}-morning" ${completedTasks.includes(`${index}-morning`) ? 'checked' : ''} onchange="updateTaskStatus('${index}-morning', this.checked)">
-                            <div>
-                                <div class="text-xs text-gray-500 mb-1">🌅 เช้า (05:00-06:00)</div>
-                                <div class="text-sm ${completedTasks.includes(`${index}-morning`) ? 'line-through text-gray-500' : ''}">${task.morning}</div>
-                            </div>
+                        <div class="flex-1">
+                            <p class="text-gray-800 ${isCompleted ? 'line-through opacity-60' : ''}">${item.activity}</p>
+                            ${statusClass === 'current-activity' ? '<p class="text-xs text-orange-600 font-medium mt-1">🔥 กิจกรรมปัจจุบัน</p>' : ''}
+                            ${statusClass === 'upcoming-activity' ? '<p class="text-xs text-blue-600 font-medium mt-1">⏰ กิจกรรมถัดไป</p>' : ''}
+                        </div>
+                        <div class="text-2xl">
+                            ${statusIcon}
                         </div>
                     </div>
                 `;
                 
-                cardContainer.appendChild(card);
+                container.appendChild(scheduleItem);
             });
         }
 
-        // Helper functions
-        function getTypeColor(type) {
+        function loadTodaySchedule() {
+            const container = document.getElementById('todaySchedule');
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            // Show next 3 activities
+            const upcomingActivities = dailySchedule.filter(item => {
+                const [hour] = item.time.split(':').map(Number);
+                return hour >= currentHour;
+            }).slice(0, 3);
+            
+            container.innerHTML = upcomingActivities.map((item, index) => {
+                const typeClass = getTypeClass(item.type);
+                return `
+                    <div class="flex items-center space-x-3 p-2 rounded-lg bg-gray-50">
+                        <div class="${typeClass} text-white px-2 py-1 rounded text-xs font-medium">
+                            ${item.time}
+                        </div>
+                        <div class="flex-1 text-sm text-gray-700">
+                            ${item.activity}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getTypeClass(type) {
             switch(type) {
-                case 'live': return 'bg-blue-100 text-blue-800';
-                case 'exam': return 'bg-pink-100 text-pink-800';
-                case 'special': return 'bg-yellow-100 text-yellow-800';
-                default: return 'bg-gray-100 text-gray-800';
+                case 'prayer': return 'prayer-time';
+                case 'study': return 'study-time';
+                case 'break': return 'break-time';
+                case 'sleep': return 'sleep-time';
+                default: return 'bg-gray-500';
             }
         }
 
-        function getTypeLabel(type) {
-            switch(type) {
-                case 'live': return '🎥 LIVE';
-                case 'exam': return '📝 ข้อสอบ';
-                case 'special': return '⭐ พิเศษ';
-                default: return '📚 ทั่วไป';
-            }
-        }
-
-        // Update task status
-        function updateTaskStatus(taskId, completed) {
-            if (completed) {
-                if (!completedTasks.includes(taskId)) {
-                    completedTasks.push(taskId);
-                    showCelebration();
-                }
+        function toggleTask(index) {
+            const wasCompleted = completedTasks.includes(index);
+            
+            if (wasCompleted) {
+                completedTasks = completedTasks.filter(i => i !== index);
             } else {
-                completedTasks = completedTasks.filter(id => id !== taskId);
+                completedTasks.push(index);
+                // Show completion celebration
+                showCompletionCelebration();
             }
             
             localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+            loadDailySchedule();
             updateProgress();
-            generateCards(); // Refresh cards to show updated status
+            loadTodaySchedule();
         }
-
-        // Show celebration animation
-        function showCelebration() {
-            const floatingProgress = document.getElementById('floatingProgress');
-            floatingProgress.classList.add('bounce');
-            setTimeout(() => floatingProgress.classList.remove('bounce'), 500);
+        
+        function showCompletionCelebration() {
+            // Create celebration element
+            const celebration = document.createElement('div');
+            celebration.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 text-6xl animate-bounce';
+            celebration.innerHTML = '🎉';
+            document.body.appendChild(celebration);
+            
+            // Remove after animation
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+            }, 1000);
+            
+            // Add confetti effect
+            createConfetti();
         }
-
-        // Update progress
-        function updateProgress() {
-            const totalTasks = tasks.length * 2; // Each day has 2 tasks
-            const completed = completedTasks.length;
-            const percentage = Math.round((completed / totalTasks) * 100);
+        
+        function createConfetti() {
+            const colors = ['#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444'];
             
-            document.getElementById('progressBar').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = `${completed}/${totalTasks} งาน`;
-            document.getElementById('floatingPercent').textContent = percentage + '%';
-            document.getElementById('floatingText').textContent = `${completed}/${totalTasks}`;
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'fixed w-2 h-2 rounded-full z-40';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.animation = `confettiFall ${Math.random() * 2 + 1}s linear forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    if (document.body.contains(confetti)) {
+                        document.body.removeChild(confetti);
+                    }
+                }, 3000);
+            }
         }
-
-        // Filter tasks
-        function filterTasks(type) {
-            currentFilter = type;
-            
-            // Update filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-gray-600', 'text-white');
-                btn.classList.add('bg-gray-100', 'text-gray-800');
-            });
-            event.target.classList.add('active', 'bg-gray-600', 'text-white');
-            event.target.classList.remove('bg-gray-100', 'text-gray-800');
-            
-            // Filter cards and table rows
-            const cards = document.querySelectorAll('.task-card');
-            const rows = document.querySelectorAll('.task-row');
-            
-            [...cards, ...rows].forEach(element => {
-                if (type === 'all' || element.dataset.type.includes(type)) {
-                    element.style.display = '';
-                } else {
-                    element.style.display = 'none';
+        
+        // Add confetti animation to CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
                 }
-            });
-        }
+            }
+        `;
+        document.head.appendChild(style);
 
-        // Toggle view
-        function toggleView() {
-            isCardView = !isCardView;
-            updateView();
-        }
-
-        function updateView() {
-            const cardView = document.getElementById('cardView');
-            const tableView = document.getElementById('tableView');
+        function updateProgress() {
+            const total = dailySchedule.length;
+            const completed = completedTasks.length;
+            const percentage = (completed / total) * 100;
             
-            if (isCardView) {
-                cardView.style.display = 'block';
-                tableView.style.display = 'none';
+            // Update text with animation
+            const completedTasksEl = document.getElementById('completedTasks');
+            completedTasksEl.textContent = `${completed}/${total}`;
+            completedTasksEl.classList.add('bounce-in');
+            setTimeout(() => completedTasksEl.classList.remove('bounce-in'), 600);
+            
+            // Update progress bar
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            
+            // Update circular progress
+            const circumference = 2 * Math.PI * 20;
+            const offset = circumference - (percentage / 100) * circumference;
+            document.getElementById('progressCircle').style.strokeDashoffset = offset;
+            document.getElementById('progressPercent').textContent = `${Math.round(percentage)}%`;
+            
+            // Update current activity status
+            updateCurrentActivityStatus();
+        }
+        
+        function updateCurrentActivityStatus() {
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            let currentActivity = null;
+            let nextActivity = null;
+            
+            for (let i = 0; i < dailySchedule.length; i++) {
+                const item = dailySchedule[i];
+                const [hour, minute] = item.time.split(':').map(Number);
+                const itemTime = hour * 60 + minute;
+                
+                if (!completedTasks.includes(i) && itemTime <= currentTime && currentTime < itemTime + 60) {
+                    currentActivity = item;
+                    break;
+                } else if (!completedTasks.includes(i) && itemTime > currentTime) {
+                    nextActivity = item;
+                    break;
+                }
+            }
+            
+            const statusEl = document.getElementById('currentActivityStatus');
+            if (currentActivity) {
+                statusEl.innerHTML = `🔥 <strong>ตอนนี้:</strong> ${currentActivity.activity}`;
+                statusEl.className = 'text-sm text-orange-600 font-medium';
+            } else if (nextActivity) {
+                statusEl.innerHTML = `⏰ <strong>ถัดไป:</strong> ${nextActivity.activity}`;
+                statusEl.className = 'text-sm text-blue-600';
             } else {
-                cardView.style.display = 'none';
-                tableView.style.display = 'block';
+                statusEl.innerHTML = '🎯 เสร็จสิ้นกิจกรรมทั้งหมดแล้ว!';
+                statusEl.className = 'text-sm text-green-600 font-medium';
             }
         }
 
-        // Reset progress
+        function loadExamSchedule() {
+            const container = document.getElementById('examScheduleContent');
+            
+            if (currentExamView === 'week') {
+                const today = new Date();
+                const todayString = today.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+                
+                container.innerHTML = examSchedule.map((item, index) => {
+                    const isToday = item.date === todayString;
+                    
+                    return `
+                        <div class="p-4 border-b border-gray-100 last:border-b-0 slide-up interactive-card
+                                ${item.isSpecial ? 'bg-gradient-to-r from-purple-50 to-pink-50 border-l-4 border-purple-400' : ''}
+                                ${isToday ? 'current-exam-day' : ''}" 
+                             style="animation-delay: ${index * 0.1}s">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="font-medium text-gray-800 flex items-center space-x-2">
+                                    <span>${item.day} ${item.date}</span>
+                                    ${isToday ? '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium animate-pulse">📅 วันนี้</span>' : ''}
+                                </div>
+                                ${item.isSpecial ? '<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">🧪 วิชาเอก</span>' : ''}
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-start space-x-2">
+                                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs font-medium">🌅 เช้า</span>
+                                    <span class="text-gray-700 ${item.isSpecial && item.morning.includes('ข้อสอบจับเวลา') ? 'font-medium' : ''}">${item.morning}</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">🌆 เย็น</span>
+                                    <span class="text-gray-700 ${item.isSpecial ? 'font-medium' : ''}">${item.evening}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                // Month view - simplified
+                container.innerHTML = `
+                    <div class="p-4 text-center text-gray-600">
+                        <p>มุมมองรายเดือน</p>
+                        <p class="text-sm mt-2">แสดงภาพรวมการเตรียมสอบทั้งเดือน</p>
+                    </div>
+                `;
+            }
+        }
+
+        function showExamView(view) {
+            currentExamView = view;
+            
+            // Update button styles
+            document.querySelectorAll('.exam-view-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+                btn.classList.add('bg-gray-300', 'text-gray-700');
+            });
+            
+            event.target.classList.remove('bg-gray-300', 'text-gray-700');
+            event.target.classList.add('bg-blue-500', 'text-white');
+            
+            loadExamSchedule();
+        }
+
+        function saveNotes() {
+            const weaknessNotes = document.getElementById('weaknessNotes').value;
+            const techniquesNotes = document.getElementById('techniquesNotes').value;
+            
+            if (weaknessNotes.trim() || techniquesNotes.trim()) {
+                const note = {
+                    id: Date.now(),
+                    date: new Date().toLocaleDateString('th-TH'),
+                    weakness: weaknessNotes,
+                    techniques: techniquesNotes
+                };
+                
+                savedNotesData.unshift(note);
+                localStorage.setItem('savedNotes', JSON.stringify(savedNotesData));
+                
+                // Clear form
+                document.getElementById('weaknessNotes').value = '';
+                document.getElementById('techniquesNotes').value = '';
+                
+                loadSavedNotes();
+                alert('บันทึกเรียบร้อยแล้ว!');
+            }
+        }
+
+        function loadSavedNotes() {
+            const container = document.getElementById('savedNotes');
+            
+            if (savedNotesData.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center">ยังไม่มีบันทึก</p>';
+                return;
+            }
+            
+            container.innerHTML = savedNotesData.map(note => `
+                <div class="border border-gray-200 rounded-lg p-3 mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-500">${note.date}</span>
+                        <button onclick="deleteNote(${note.id})" class="text-red-500 text-sm">ลบ</button>
+                    </div>
+                    ${note.weakness ? `
+                        <div class="mb-2">
+                            <h4 class="font-medium text-sm text-gray-700">จุดอ่อน:</h4>
+                            <p class="text-sm text-gray-600">${note.weakness}</p>
+                        </div>
+                    ` : ''}
+                    ${note.techniques ? `
+                        <div>
+                            <h4 class="font-medium text-sm text-gray-700">เทคนิค:</h4>
+                            <p class="text-sm text-gray-600">${note.techniques}</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function deleteNote(id) {
+            if (confirm('ต้องการลบบันทึกนี้หรือไม่?')) {
+                savedNotesData = savedNotesData.filter(note => note.id !== id);
+                localStorage.setItem('savedNotes', JSON.stringify(savedNotesData));
+                loadSavedNotes();
+            }
+        }
+
+        function loadRandomQuote() {
+            const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+            document.getElementById('motivationalQuote').textContent = randomQuote.arabic;
+            document.getElementById('quoteTranslation').textContent = randomQuote.translation;
+        }
+
         function resetProgress() {
-            if (confirm('คุณต้องการรีเซ็ตความคืบหน้าทั้งหมดหรือไม่?')) {
+            if (confirm('ต้องการรีเซ็ตความคืบหน้าทั้งหมดหรือไม่?')) {
                 completedTasks = [];
                 localStorage.removeItem('completedTasks');
+                loadDailySchedule();
                 updateProgress();
-                generateCards();
-                
-                // Reset table checkboxes
-                document.querySelectorAll('.task-checkbox').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
+                alert('รีเซ็ตเรียบร้อยแล้ว!');
             }
         }
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            const shouldBeCardView = window.innerWidth <= 768;
-            if (shouldBeCardView !== isCardView) {
-                isCardView = shouldBeCardView;
-                updateView();
-            }
-        });
     </script>
-  </body>
-  </html>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96027271b7a97334',t:'MTc1MjY3ODg0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
